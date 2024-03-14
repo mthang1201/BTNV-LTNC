@@ -1,8 +1,1 @@
-- Say "Hello, World!" With C++
-- Input and Output
-- Basic Data Types
-- Conditional Statements
-- Functions
-- Arrays Introduction
-- Plus Minus
-- Sherlock and Array
+done
