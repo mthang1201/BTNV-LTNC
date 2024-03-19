@@ -11,51 +11,41 @@ string rtrim(const string &);
  * The function is expected to return an INTEGER.
  * The function accepts STRING s as parameter.
  */
-bool check(string s)
-{
-    int len = s.size();
-    for (int i = 0; i < len/2; i++)
-    {
-        if (s[i] != s[len-i-1]) return false;
-    }
-    return true;
-}
-
-bool check2(string s, int k)
-{
-    int len = s.size();
-    int left = 0, right = len-1;
-    while (left != right)
-    {
-        if (left == k) left++;
-        if (right == k) right--;
-        if (s[left] != s[right]) return false;
-        if (right - left == 1) return true;
-        left++;
-        right--;
-        // if (right == -1) return true;
-    }
-    return true;
-}
-
-// string remove(string s, int k)
-// {
-//     string res;
-//     for (int i = 0; i < (int)s.size(); i++)
-//     {
-//         if (i == k) continue;
-//         res += s[i];
-//     }
-//     return res;
-// }
 
 int palindromeIndex(string s) {
-    if (check(s)) return -1;
-    for (int i = 0; i < (int)s.size(); i++)
-    {
-        if (check2(s, i)) return i;
+    int idx = -1;
+    size_t changes = 0;
+    bool isSecondTry = false;
+    auto itRollBakc = s.begin();
+    auto chrRollBack = *itRollBakc;
+    for(auto bIt = s.begin(), eIt = --s.end(); bIt < eIt; ++bIt, --eIt){
+        if(*bIt == *eIt){
+            continue;
+        }
+        if(++changes == 2){
+            if(isSecondTry){
+                return -1;
+            }
+            isSecondTry = !isSecondTry;
+            changes = 0;
+            idx = -1;
+            s.insert(itRollBakc, chrRollBack);
+            bIt = --s.begin();
+            eIt = s.end();
+            continue;
+        }
+        if(*(bIt + 1) == *eIt && !isSecondTry){
+            idx = std::distance(s.begin(), bIt);
+            chrRollBack = *bIt;
+            bIt = itRollBakc = s.erase(bIt);
+            eIt = s.end() - idx - 1;
+        }else if(*bIt == *(eIt - 1)){
+            idx = std::distance(s.begin(), eIt);
+            eIt = s.erase(eIt);
+            bIt = s.begin() + idx;
+        }
     }
-    return -2;
+    return idx;
 }
 
 int main()
