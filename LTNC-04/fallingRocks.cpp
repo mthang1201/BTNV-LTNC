@@ -32,7 +32,7 @@ bool firstTry = true;
 
 bool findPath(vector<vector<int>>& map, int x, int y, int width, int height, vector<vector<int>>& sol)
 {
-    print(sol, width, height);cout << endl;
+    // print(sol, width, height);cout << endl;
     if (y == height - 1)
     {
         sol[y][x] = Player;
@@ -114,8 +114,8 @@ int main() {
         }
     }
     
-    print(map, width, height);
-    cout << endl;
+    // print(map, width, height);
+    // cout << endl;
     // print(map, width, height);
     
     if (findPath(map, playerPos, firstRow, width, height, sol))
@@ -126,8 +126,8 @@ int main() {
     {
         cout << "NO";
     }
-    cout << endl;
-    print(sol, width, height);cout << endl;
+    // cout << endl;
+    // print(sol, width, height);cout << endl;
     
     return 0;
 }
