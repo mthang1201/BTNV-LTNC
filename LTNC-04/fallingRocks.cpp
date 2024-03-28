@@ -28,6 +28,8 @@ bool isValid(vector<vector<int>>& map, int x, int y, int width, int height)
     return false;
 }
 
+bool firstTry = true;
+
 bool findPath(vector<vector<int>>& map, int x, int y, int width, int height, vector<vector<int>>& sol)
 {
     print(sol, width, height);cout << endl;
@@ -36,28 +38,41 @@ bool findPath(vector<vector<int>>& map, int x, int y, int width, int height, vec
         sol[y][x] = Player;
         return true;
     }
-    // y++;
-    if (isValid(map, x, y, width, height))
+    
+    if (isValid(map, x, y, width, height) && firstTry)
+    {
+        firstTry = false;
+        sol[y][x] = Player;
+        // y++;
+        if (findPath(map, x+1, y, width, height, sol))
+            return true;
+        if (findPath(map, x-1, y, width, height, sol))
+            return true;
+        if (findPath(map, x, y, width, height, sol))
+            return true;
+        // if (findPath(map, x, y+1, width, height, sol))
+        //     return true;
+        
+        sol[y][x] = Empty;
+        return false;
+    }
+    
+    if (isValid(map, x, y, width, height) && isValid(map, x, y+1, width, height))
     {
         sol[y][x] = Player;
         y++;
+        sol[y][x] = Player;
+        // y++;
+        if (findPath(map, x+1, y, width, height, sol))
+            return true;
+        if (findPath(map, x-1, y, width, height, sol))
+            return true;
+        if (findPath(map, x, y, width, height, sol))
+            return true;
+        // if (findPath(map, x, y+1, width, height, sol))
+        //     return true;
         
-        if (isValid(map, x, y, width, height))
-        {
-            sol[y][x] = Player;
-            // y++;
-            if (findPath(map, x+1, y, width, height, sol))
-                return true;
-            if (findPath(map, x-1, y, width, height, sol))
-                return true;
-            if (findPath(map, x, y, width, height, sol))
-                return true;
-            // if (findPath(map, x, y+1, width, height, sol))
-            //     return true;
-
-            sol[y][x] = Empty;
-        }
-        
+        sol[y][x] = Empty;
         y--;
         sol[y][x] = Empty;
         return false;
