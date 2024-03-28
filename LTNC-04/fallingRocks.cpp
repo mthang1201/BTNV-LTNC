@@ -41,18 +41,23 @@ bool findPath(vector<vector<int>>& map, int x, int y, int width, int height, vec
     {
         sol[y][x] = Player;
         y++;
-        sol[y][x] = Player;
-        // y++;
-        if (findPath(map, x+1, y, width, height, sol))
-            return true;
-        if (findPath(map, x-1, y, width, height, sol))
-            return true;
-        if (findPath(map, x, y, width, height, sol))
-            return true;
-        // if (findPath(map, x, y+1, width, height, sol))
-        //     return true;
         
-        sol[y][x] = Empty;
+        if (isValid(map, x, y, width, height))
+        {
+            sol[y][x] = Player;
+            // y++;
+            if (findPath(map, x+1, y, width, height, sol))
+                return true;
+            if (findPath(map, x-1, y, width, height, sol))
+                return true;
+            if (findPath(map, x, y, width, height, sol))
+                return true;
+            // if (findPath(map, x, y+1, width, height, sol))
+            //     return true;
+
+            sol[y][x] = Empty;
+        }
+        
         y--;
         sol[y][x] = Empty;
         return false;
