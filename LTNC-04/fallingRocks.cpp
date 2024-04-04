@@ -59,6 +59,7 @@ bool findPath(vector<vector<int>>& map, int x, int y, int width, int height, vec
     
     if (isValid(map, x, y, width, height) && isValid(map, x, y+1, width, height))
     {
+        if (sol[y][x] == Empty) return false;
         sol[y][x] = Player;
         y++;
         sol[y][x] = Player;
