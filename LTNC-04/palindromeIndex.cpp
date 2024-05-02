@@ -12,40 +12,43 @@ string rtrim(const string &);
  * The function accepts STRING s as parameter.
  */
 
-int palindromeIndex(string s) {
-    int idx = -1;
-    size_t changes = 0;
-    bool isSecondTry = false;
-    auto itRollBakc = s.begin();
-    auto chrRollBack = *itRollBakc;
-    for(auto bIt = s.begin(), eIt = --s.end(); bIt < eIt; ++bIt, --eIt){
-        if(*bIt == *eIt){
-            continue;
+int palindromeIndex(std::string s)
+{
+  int res, i = 0, j = s.size() - 1;
+  while (i <= j)
+  {
+    if (s[i] != s[j])
+    {
+      res = i;
+      int left_index = i;
+      int right_index = j;
+      i++;
+      while (i <= j)
+      {
+        if (s[i] != s[j])
+        {
+          res = -100;
+          break;
         }
-        if(++changes == 2){
-            if(isSecondTry){
-                return -1;
-            }
-            isSecondTry = !isSecondTry;
-            changes = 0;
-            idx = -1;
-            s.insert(itRollBakc, chrRollBack);
-            bIt = --s.begin();
-            eIt = s.end();
-            continue;
-        }
-        if(*(bIt + 1) == *eIt && !isSecondTry){
-            idx = std::distance(s.begin(), bIt);
-            chrRollBack = *bIt;
-            bIt = itRollBakc = s.erase(bIt);
-            eIt = s.end() - idx - 1;
-        }else if(*bIt == *(eIt - 1)){
-            idx = std::distance(s.begin(), eIt);
-            eIt = s.erase(eIt);
-            bIt = s.begin() + idx;
-        }
+        i += 1;
+        j -= 1;
+      }
+      if (res != -100) return res;
+      
+      i = left_index;
+      j = right_index - 1;
+      while (i <= j)
+      {
+        if (s[i] != s[j]) return -1;
+        i++;
+        j--;
+      }
+      return right_index;
     }
-    return idx;
+    i++;
+    j--;
+  }
+  return -1;
 }
 
 int main()
